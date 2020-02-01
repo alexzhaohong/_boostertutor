@@ -1,6 +1,6 @@
 name: Twitter
 
-on: [repository_dispatch]
+on: repository_dispatch
 
 jobs:
   build:
