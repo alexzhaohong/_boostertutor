@@ -36,14 +36,10 @@ oldest_id_found = False
 while not oldest_id_found:
   if not oldest_id:
     mentions = tweepy_api.mentions_timeline(count=mentions_timeline_count, tweet_mode="extended")
-    if not mentions:
-      oldest_id_found = True
-      break
   else:
     mentions = tweepy_api.mentions_timeline(count=mentions_timeline_count, max_id=oldest_id, tweet_mode="extended")
-    if len(mentions) < mentions_timeline_count:
-      oldest_id_found = True
-      break
+  if not mentions or len(mentions) < mentions_timeline_count:
+    oldest_id_found = True
   for mention in mentions:
     tweet_created_at = mention._json["created_at"]
     tweet_favorited = mention._json["favorited"]
