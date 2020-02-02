@@ -1,7 +1,14 @@
 # \_boostertutor
 
+## Current Status
+
+![Twitter](https://github.com/brokenthumbs/_boostertutor/workflows/Twitter/badge.svg)
+
 ## Trigger
 
+Currently set on a `schedule: cron: '* * * * *'`.
+
+`repository_dispatch` uses the following `curl` to trigger:
 ```
 curl --verbose -X POST -u "brokenthumbs:${GITHUB_PAT}" \
 -H "Accept: application/vnd.github.everest-preview+json"  \
@@ -16,6 +23,7 @@ https://api.github.com/repos/brokenthumbs/_boostertutor/dispatches \
 
 ## Links
 
+- http://docs.tweepy.org/en/latest/extended_tweets.html
 - https://developer.github.com/v3/activity/events/types/#repositorydispatchevent
 - https://developer.github.com/v3/repos/#create-a-repository-dispatch-event
 - https://developer.twitter.com/en/apps
@@ -32,10 +40,9 @@ https://api.github.com/repos/brokenthumbs/_boostertutor/dispatches \
 - https://scryfall.com/docs/api/cards/random
 - https://scryfall.com/docs/syntax
 - https://stackoverflow.com/a/50542155
+- https://stackoverflow.com/a/8569258
 - https://stackoverflow.com/questions/22974772/querystring-array-parameters-in-python-using-requests
 - https://stackoverflow.com/questions/5607551/how-to-urlencode-a-querystring-in-python
-- http://docs.tweepy.org/en/latest/extended_tweets.html
-- https://stackoverflow.com/a/8569258
 
 ## Scrap
 
@@ -60,5 +67,3 @@ export TWITTER_CONSUMER_SECRET=
 ```
 
 ## ToDo
-
-- Switch Twitter Access Tokens from @brokenthumbs to @\_boostertutor
