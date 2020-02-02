@@ -2,7 +2,7 @@
 
 ## Current Status
 
-![Twitter](https://github.com/brokenthumbs/_boostertutor/workflows/Twitter/badge.svg)
+![Twitter](https://github.com/brokenthumbs/_boostertutor/actions?query=workflow%3ATwitter)
 
 ## Trigger
 

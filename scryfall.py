@@ -41,7 +41,7 @@ while not oldest_id_found:
       break
   else:
     mentions = tweepy_api.mentions_timeline(count=mentions_timeline_count, max_id=oldest_id, tweet_mode="extended")
-    if length(mentions) <= mentions_timeline_count:
+    if len(mentions) <= mentions_timeline_count:
       oldest_id_found = True
       break
   for mention in mentions:
