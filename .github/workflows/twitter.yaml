@@ -1,6 +1,8 @@
 name: Twitter
 
 on:
+  repository_dispatch:
+    types: _
   schedule:
     - cron: '*/5 * * * *'
 

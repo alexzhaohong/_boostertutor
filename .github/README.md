@@ -14,7 +14,7 @@ curl --verbose -X POST -u "brokenthumbs:${GITHUB_PAT}" \
 -H "Accept: application/vnd.github.everest-preview+json"  \
 -H "Content-Type: application/json" \
 https://api.github.com/repos/brokenthumbs/_boostertutor/dispatches \
---data '{"event_type": "dispatch"}'
+--data '{"event_type": "_"}'
 ```
 
 ## Notes
