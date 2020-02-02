@@ -10,7 +10,7 @@ import urllib
 
 pp = pprint.PrettyPrinter(indent=4)
 requests_per_second = 5
-mentions_timeline_count = 10
+mentions_timeline_count = 200
 
 # setup twitter api
 TWITTER_SCREEN_NAME = os.environ.get("TWITTER_SCREEN_NAME", "_boostertutor")
