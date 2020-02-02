@@ -6,7 +6,7 @@
 
 ## Trigger
 
-Currently set on a `schedule: cron: '* * * * *'`.
+Currently set on a `schedule: cron: '*/5 * * * *'`.
 
 `repository_dispatch` uses the following `curl` to trigger:
 ```
