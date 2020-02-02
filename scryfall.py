@@ -169,7 +169,7 @@ for unprocessed_request in reversed(unprocessed_requests):
         query_params.append(f"(edition:{edition} !\"{rare}\")")
       query_params = urllib.parse.quote_plus(" or ".join(query_params))
 
-      tweepy_reply = f"Here is your booster pack of [{edition}]! https://scryfall.com/search?order=rarity&dir=desc&q={query_params}"
+      tweepy_reply = f"Here is your booster pack of [{edition}]! https://scryfall.com/search?order=rarity&dir=asc&q={query_params}"
       print(tweepy_reply)
       tweepy_api.update_status(
         status=tweepy_reply,
