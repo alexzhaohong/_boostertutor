@@ -105,7 +105,7 @@ for unprocessed_request in reversed(unprocessed_requests):
           print(te4)
       except tweepy.error.TweepError as te1:
         print(te1)
-        if te1[0]["code"] == 349:
+        if te1.api_code == 226 || te1.api_code == 326:
           try:
             tweepy_api.create_favorite(id=unprocessed_request["id"])
           except tweepy.error.TweepError as te2:
@@ -206,7 +206,7 @@ for unprocessed_request in reversed(unprocessed_requests):
           print(te4)
       except tweepy.error.TweepError as te1:
         print(te1)
-        if te1[0]["code"] == 349:
+        if te1.api_code == 226 || te1.api_code == 326:
           try:
             tweepy_api.create_favorite(id=unprocessed_request["id"])
           except tweepy.error.TweepError as te2:
@@ -234,7 +234,7 @@ for unprocessed_request in reversed(unprocessed_requests):
         print(te4)
     except tweepy.error.TweepError as te1:
       print(te1)
-      if te1[0]["code"] == 349:
+      if te1.api_code == 226 || te1.api_code == 326:
         try:
           tweepy_api.create_favorite(id=unprocessed_request["id"])
         except tweepy.error.TweepError as te2:
