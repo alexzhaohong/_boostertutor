@@ -71,6 +71,7 @@ while not oldest_id_found:
           })
 
 print()
+update_description = True
 for unprocessed_request in reversed(unprocessed_requests):
   print(f"Processing request for https://twitter.com/_/status/{unprocessed_request['id']}")
   print(f"[{unprocessed_request['created_at']}] [{unprocessed_request['screen_name']}]")
@@ -100,10 +101,11 @@ for unprocessed_request in reversed(unprocessed_requests):
           tweepy_api.create_favorite(id=unprocessed_request["id"])
         except tweepy.error.TweepError as te2:
           print(te3)
-        try:
-          tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
-        except tweepy.error.TweepError as te3:
-          print(te4)
+        if update_description:
+          try:
+            tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
+          except tweepy.error.TweepError as te3:
+            print(te4)
       except tweepy.error.TweepError as te1:
         print(te1)
         if not (te1.api_code == 226 or te1.api_code == 326):
@@ -111,10 +113,13 @@ for unprocessed_request in reversed(unprocessed_requests):
             tweepy_api.create_favorite(id=unprocessed_request["id"])
           except tweepy.error.TweepError as te2:
             print(te2)
-          try:
-            tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
-          except tweepy.error.TweepError as te3:
-            print(te3)
+          if update_description:
+            try:
+              tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
+            except tweepy.error.TweepError as te3:
+              print(te3)
+        else:
+          update_description = False
 
     else:
       print(f"Generating booster pack for [{edition}]")
@@ -204,10 +209,11 @@ for unprocessed_request in reversed(unprocessed_requests):
           tweepy_api.create_favorite(id=unprocessed_request["id"])
         except tweepy.error.TweepError as te2:
           print(te3)
-        try:
-          tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
-        except tweepy.error.TweepError as te3:
-          print(te4)
+        if update_description:
+          try:
+            tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
+          except tweepy.error.TweepError as te3:
+            print(te4)
       except tweepy.error.TweepError as te1:
         print(te1)
         if not (te1.api_code == 226 or te1.api_code == 326):
@@ -215,10 +221,13 @@ for unprocessed_request in reversed(unprocessed_requests):
             tweepy_api.create_favorite(id=unprocessed_request["id"])
           except tweepy.error.TweepError as te2:
             print(te2)
-          try:
-            tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
-          except tweepy.error.TweepError as te3:
-            print(te3)
+          if update_description:
+            try:
+              tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
+            except tweepy.error.TweepError as te3:
+              print(te3)
+        else:
+          update_description = False
 
   except Exception as e:
     tweepy_reply = f"Please specify which pack you wish to open. For example: \"[LEA]\" https://en.wikipedia.org/wiki/List_of_Magic:_The_Gathering_sets"
@@ -232,10 +241,11 @@ for unprocessed_request in reversed(unprocessed_requests):
         tweepy_api.create_favorite(id=unprocessed_request["id"])
       except tweepy.error.TweepError as te2:
         print(te3)
-      try:
-        tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
-      except tweepy.error.TweepError as te3:
-        print(te4)
+      if update_description:
+        try:
+          tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
+        except tweepy.ferror.TweepError as te3:
+          print(te4)
     except tweepy.error.TweepError as te1:
       print(te1)
       if not (te1.api_code == 226 or te1.api_code == 326):
@@ -243,8 +253,11 @@ for unprocessed_request in reversed(unprocessed_requests):
           tweepy_api.create_favorite(id=unprocessed_request["id"])
         except tweepy.error.TweepError as te2:
           print(te2)
-        try:
-          tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
-        except tweepy.error.TweepError as te3:
-          print(te3)
+        if update_description:
+          try:
+            tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
+          except tweepy.error.TweepError as te3:
+            print(te3)
+      else:
+        update_description = False
   print()
