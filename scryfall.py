@@ -82,6 +82,7 @@ for unprocessed_request in reversed(unprocessed_requests):
     payload = {
       'q': [ f" \
         edition:{edition} \
+        is:booster \
       "]
     }
     r = requests.get('https://api.scryfall.com/cards/random', params=payload)
@@ -131,6 +132,7 @@ for unprocessed_request in reversed(unprocessed_requests):
         payload = {
           'q': [ f" \
             edition:{edition} \
+            is:booster \
             rarity:{rarity} \
             -type:land \
             {not_card} \
@@ -150,6 +152,7 @@ for unprocessed_request in reversed(unprocessed_requests):
         payload = {
           'q': [ f" \
             edition:{edition} \
+            is:booster \
             rarity:{rarity} \
             -type:land \
             {not_card} \
@@ -169,6 +172,7 @@ for unprocessed_request in reversed(unprocessed_requests):
         payload = {
           'q': [ f" \
             edition:{edition} \
+            is:booster \
             rarity>={rarity} \
             -type:land \
             {not_card} \
