@@ -45,6 +45,7 @@ while not oldest_id_found:
     tweet_favorited = mention._json["favorited"]
     tweet_id = mention._json["id"]
     tweet_screen_name = mention._json["user"]["screen_name"]
+    tweet_screen_name_id = mention._json["user"]["id"]
     tweet_full_text = mention._json["full_text"]
     oldest_id = tweet_id
     try:
@@ -65,6 +66,7 @@ while not oldest_id_found:
             "id": tweet_id,
             "text": tweet_full_text,
             "screen_name": tweet_screen_name,
+            "screen_name_id": tweet_screen_name_id,
             "created_at": tweet_created_at
           })
 
@@ -88,14 +90,10 @@ for unprocessed_request in reversed(unprocessed_requests):
     if "status" in r.json() and r.json()["status"] == 404:
       tweepy_reply = f"Booster Tutor could not find a booster pack in Scryfall for [{edition}]. https://en.wikipedia.org/wiki/List_of_Magic:_The_Gathering_sets"
       print(tweepy_reply)
-      response = tweepy_api.update_status(
-        status=tweepy_reply,
-        in_reply_to_status_id=unprocessed_request["id"],
-        auto_populate_reply_metadata=True,
-        tweet_mode="extended"
+      tweepy_api.send_direct_message(
+        recipient_id=unprocessed_request["screen_name_id"],
+        text=tweepy_reply
       )
-      print(f"Response: https://twitter.com/_/status/{response._json['id']}")
-      print(f"{response._json['full_text']}")
       try:
         tweepy_api.create_favorite(id=unprocessed_request["id"])
       except tweepy.error.TweepError as te:
@@ -179,14 +177,10 @@ for unprocessed_request in reversed(unprocessed_requests):
 
       tweepy_reply = f"Here is your booster pack of [{edition}]! https://scryfall.com/search?order=rarity&dir=asc&q={query_params}"
       print(tweepy_reply)
-      response = tweepy_api.update_status(
-        status=tweepy_reply,
-        in_reply_to_status_id=unprocessed_request["id"],
-        auto_populate_reply_metadata=True,
-        tweet_mode="extended"
+      tweepy_api.send_direct_message(
+        recipient_id=unprocessed_request["screen_name_id"],
+        text=tweepy_reply
       )
-      print(f"Response: https://twitter.com/_/status/{response._json['id']}")
-      print(f"{response._json['full_text']}")
       try:
         tweepy_api.create_favorite(id=unprocessed_request["id"])
       except tweepy.error.TweepError as te:
@@ -197,14 +191,10 @@ for unprocessed_request in reversed(unprocessed_requests):
   except Exception as e:
     tweepy_reply = f"Please specify which pack you wish to open. For example: \"[LEA]\" https://en.wikipedia.org/wiki/List_of_Magic:_The_Gathering_sets"
     print(tweepy_reply)
-    response = tweepy_api.update_status(
-      status=tweepy_reply,
-      in_reply_to_status_id=unprocessed_request["id"],
-      auto_populate_reply_metadata=True,
-      tweet_mode="extended"
+    tweepy_api.send_direct_message(
+      recipient_id=unprocessed_request["screen_name_id"],
+      text=tweepy_reply
     )
-    print(f"Response: https://twitter.com/_/status/{response._json['id']}")
-    print(f"{response._json['full_text']}")
     try:
       tweepy_api.create_favorite(id=unprocessed_request["id"])
     except tweepy.error.TweepError as te:
