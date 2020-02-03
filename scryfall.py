@@ -90,15 +90,21 @@ for unprocessed_request in reversed(unprocessed_requests):
     if "status" in r.json() and r.json()["status"] == 404:
       tweepy_reply = f"Booster Tutor could not find a booster pack in Scryfall for [{edition}]. https://en.wikipedia.org/wiki/List_of_Magic:_The_Gathering_sets"
       print(tweepy_reply)
-      tweepy_api.send_direct_message(
-        recipient_id=unprocessed_request["screen_name_id"],
-        text=tweepy_reply
-      )
+      try:
+        tweepy_api.send_direct_message(
+          recipient_id=unprocessed_request["screen_name_id"],
+          text=tweepy_reply
+        )
+      except tweepy.error.TweepError as te1:
+        print(te1)
+        try:
+          tweepy_api.create_favorite(id=unprocessed_request["id"])
+        except tweepy.error.TweepError as te2:
+          print(te2)
       try:
         tweepy_api.create_favorite(id=unprocessed_request["id"])
-      except tweepy.error.TweepError as te:
-        print(te)
-        pass
+      except tweepy.error.TweepError as te3:
+        print(te3)
       tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
 
     else:
@@ -177,28 +183,40 @@ for unprocessed_request in reversed(unprocessed_requests):
 
       tweepy_reply = f"Here is your booster pack of [{edition}]! https://scryfall.com/search?order=rarity&dir=asc&q={query_params}"
       print(tweepy_reply)
-      tweepy_api.send_direct_message(
-        recipient_id=unprocessed_request["screen_name_id"],
-        text=tweepy_reply
-      )
+      try:
+        tweepy_api.send_direct_message(
+          recipient_id=unprocessed_request["screen_name_id"],
+          text=tweepy_reply
+        )
+      except tweepy.error.TweepError as te1:
+        print(te1)
+        try:
+          tweepy_api.create_favorite(id=unprocessed_request["id"])
+        except tweepy.error.TweepError as te2:
+          print(te2)
       try:
         tweepy_api.create_favorite(id=unprocessed_request["id"])
-      except tweepy.error.TweepError as te:
-        print(te)
-        pass
+      except tweepy.error.TweepError as te3:
+        print(te3)
       tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
 
   except Exception as e:
     tweepy_reply = f"Please specify which pack you wish to open. For example: \"[LEA]\" https://en.wikipedia.org/wiki/List_of_Magic:_The_Gathering_sets"
     print(tweepy_reply)
-    tweepy_api.send_direct_message(
-      recipient_id=unprocessed_request["screen_name_id"],
-      text=tweepy_reply
-    )
+    try:
+      tweepy_api.send_direct_message(
+        recipient_id=unprocessed_request["screen_name_id"],
+        text=tweepy_reply
+      )
+    except tweepy.error.TweepError as te1:
+      print(te1)
+      try:
+        tweepy_api.create_favorite(id=unprocessed_request["id"])
+      except tweepy.error.TweepError as te2:
+        print(te2)
     try:
       tweepy_api.create_favorite(id=unprocessed_request["id"])
-    except tweepy.error.TweepError as te:
-      print(te)
-      pass
+    except tweepy.error.TweepError as te3:
+      print(te3)
     tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
   print()
