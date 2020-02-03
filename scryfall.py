@@ -93,7 +93,11 @@ for unprocessed_request in reversed(unprocessed_requests):
         in_reply_to_status_id=unprocessed_request["id"],
         auto_populate_reply_metadata=True
       )
-      tweepy_api.create_favorite(id=unprocessed_request["id"])
+      try:
+        tweepy_api.create_favorite(id=unprocessed_request["id"])
+      except tweepy.error.TweepError as te:
+        print(te)
+        pass
       tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
 
     else:
@@ -177,7 +181,11 @@ for unprocessed_request in reversed(unprocessed_requests):
         in_reply_to_status_id=unprocessed_request["id"],
         auto_populate_reply_metadata=True
       )
-      tweepy_api.create_favorite(id=unprocessed_request["id"])
+      try:
+        tweepy_api.create_favorite(id=unprocessed_request["id"])
+      except tweepy.error.TweepError as te:
+        print(te)
+        pass
       tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
 
   except Exception as e:
@@ -188,6 +196,10 @@ for unprocessed_request in reversed(unprocessed_requests):
       in_reply_to_status_id=unprocessed_request["id"],
       auto_populate_reply_metadata=True
     )
-    tweepy_api.create_favorite(id=unprocessed_request["id"])
+    try:
+      tweepy_api.create_favorite(id=unprocessed_request["id"])
+    except tweepy.error.TweepError as te:
+      print(te)
+      pass
     tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
   print()
