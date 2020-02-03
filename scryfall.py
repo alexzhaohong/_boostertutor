@@ -191,11 +191,11 @@ for unprocessed_request in reversed(unprocessed_requests):
       # generate scryfall link
       query_params = []
       for common in commons:
-        query_params.append(f"(edition:{edition} !\"{common}\")")
+        query_params.append(f"(edition:{edition} is:booster !\"{common}\")")
       for uncommon in uncommons:
-        query_params.append(f"(edition:{edition} !\"{uncommon}\")")
+        query_params.append(f"(edition:{edition} is:booster !\"{uncommon}\")")
       for rare in rares:
-        query_params.append(f"(edition:{edition} !\"{rare}\")")
+        query_params.append(f"(edition:{edition} is:booster !\"{rare}\")")
       query_params = urllib.parse.quote_plus(" or ".join(query_params))
 
       tweepy_reply = f"Here is your booster pack of [{edition}]! https://scryfall.com/search?order=rarity&dir=asc&q={query_params}"
