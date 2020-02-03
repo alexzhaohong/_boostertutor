@@ -70,8 +70,39 @@ while not oldest_id_found:
             "created_at": tweet_created_at
           })
 
+def create_favorite(id):
+  try:
+    tweepy_api.create_favorite(id=id)
+  except tweepy.error.TweepError as te:
+    print(te)
+
+def update_profile(description, update_description_flag):
+  if update_description_flag:
+    try:
+      tweepy_api.update_profile(description=description)
+    except tweepy.error.TweepError as te:
+      print(te)
+
+def send_twitter_dm(tweepy_reply, unprocessed_request, update_description_flag):
+  print(tweepy_reply)
+  try:
+    tweepy_api.send_direct_message(
+      recipient_id=unprocessed_request["screen_name_id"],
+      text=tweepy_reply
+    )
+    create_favorite(unprocessed_request["id"])
+    update_profile(f"most recent booster opened on: {unprocessed_request['created_at']}", update_description_flag)
+  except tweepy.error.TweepError as te:
+    print(te)
+    if te.api_code == 226 or te.api_code == 326:
+      update_description_flag = False
+    else:
+      create_favorite(unprocessed_request["id"])
+      update_profile(f"most recent booster opened on: {unprocessed_request['created_at']}", update_description_flag)
+  return update_description_flag
+
 print()
-update_description = True
+update_description_flag = True
 for unprocessed_request in reversed(unprocessed_requests):
   print(f"Processing request for https://twitter.com/_/status/{unprocessed_request['id']}")
   print(f"[{unprocessed_request['created_at']}] [{unprocessed_request['screen_name']}]")
@@ -91,35 +122,7 @@ for unprocessed_request in reversed(unprocessed_requests):
 
     if "status" in r.json() and r.json()["status"] == 404:
       tweepy_reply = f"Booster Tutor could not find a booster pack in Scryfall for [{edition}]. https://en.wikipedia.org/wiki/List_of_Magic:_The_Gathering_sets"
-      print(tweepy_reply)
-      try:
-        tweepy_api.send_direct_message(
-          recipient_id=unprocessed_request["screen_name_id"],
-          text=tweepy_reply
-        )
-        try:
-          tweepy_api.create_favorite(id=unprocessed_request["id"])
-        except tweepy.error.TweepError as te2:
-          print(te3)
-        if update_description:
-          try:
-            tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
-          except tweepy.error.TweepError as te3:
-            print(te4)
-      except tweepy.error.TweepError as te1:
-        print(te1)
-        if not (te1.api_code == 226 or te1.api_code == 326):
-          try:
-            tweepy_api.create_favorite(id=unprocessed_request["id"])
-          except tweepy.error.TweepError as te2:
-            print(te2)
-          if update_description:
-            try:
-              tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
-            except tweepy.error.TweepError as te3:
-              print(te3)
-        else:
-          update_description = False
+      update_description_flag = send_twitter_dm(tweepy_reply, unprocessed_request, update_description_flag)
 
     else:
       print(f"Generating booster pack for [{edition}]")
@@ -199,65 +202,10 @@ for unprocessed_request in reversed(unprocessed_requests):
       query_params = urllib.parse.quote_plus(f"edition:{edition} is:booster (" + " or ".join(query_params) + ")")
 
       tweepy_reply = f"Here is your booster pack of [{edition}]! https://scryfall.com/search?order=rarity&dir=asc&q={query_params}"
-      print(tweepy_reply)
-      try:
-        tweepy_api.send_direct_message(
-          recipient_id=unprocessed_request["screen_name_id"],
-          text=tweepy_reply
-        )
-        try:
-          tweepy_api.create_favorite(id=unprocessed_request["id"])
-        except tweepy.error.TweepError as te2:
-          print(te3)
-        if update_description:
-          try:
-            tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
-          except tweepy.error.TweepError as te3:
-            print(te4)
-      except tweepy.error.TweepError as te1:
-        print(te1)
-        if not (te1.api_code == 226 or te1.api_code == 326):
-          try:
-            tweepy_api.create_favorite(id=unprocessed_request["id"])
-          except tweepy.error.TweepError as te2:
-            print(te2)
-          if update_description:
-            try:
-              tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
-            except tweepy.error.TweepError as te3:
-              print(te3)
-        else:
-          update_description = False
+      update_description_flag = send_twitter_dm(tweepy_reply, unprocessed_request, update_description_flag)
 
   except Exception as e:
     tweepy_reply = f"Please specify which pack you wish to open. For example: \"[LEA]\" https://en.wikipedia.org/wiki/List_of_Magic:_The_Gathering_sets"
-    print(tweepy_reply)
-    try:
-      tweepy_api.send_direct_message(
-        recipient_id=unprocessed_request["screen_name_id"],
-        text=tweepy_reply
-      )
-      try:
-        tweepy_api.create_favorite(id=unprocessed_request["id"])
-      except tweepy.error.TweepError as te2:
-        print(te3)
-      if update_description:
-        try:
-          tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
-        except tweepy.ferror.TweepError as te3:
-          print(te4)
-    except tweepy.error.TweepError as te1:
-      print(te1)
-      if not (te1.api_code == 226 or te1.api_code == 326):
-        try:
-          tweepy_api.create_favorite(id=unprocessed_request["id"])
-        except tweepy.error.TweepError as te2:
-          print(te2)
-        if update_description:
-          try:
-            tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
-          except tweepy.error.TweepError as te3:
-            print(te3)
-      else:
-        update_description = False
+    update_description_flag = send_twitter_dm(tweepy_reply, unprocessed_request, update_description_flag)
+
   print()
