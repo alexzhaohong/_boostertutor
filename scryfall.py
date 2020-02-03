@@ -86,7 +86,7 @@ for unprocessed_request in reversed(unprocessed_requests):
     time.sleep(1/requests_per_second)
 
     if "status" in r.json() and r.json()["status"] == 404:
-      tweepy_reply = f"@{unprocessed_request['screen_name']} Booster Tutor could not find a booster pack in Scryfall for [{edition}]. https://en.wikipedia.org/wiki/List_of_Magic:_The_Gathering_sets"
+      tweepy_reply = f"Booster Tutor could not find a booster pack in Scryfall for [{edition}]. https://en.wikipedia.org/wiki/List_of_Magic:_The_Gathering_sets"
       print(tweepy_reply)
       response = tweepy_api.update_status(
         status=tweepy_reply,
@@ -177,7 +177,7 @@ for unprocessed_request in reversed(unprocessed_requests):
         query_params.append(f"(edition:{edition} !\"{rare}\")")
       query_params = urllib.parse.quote_plus(" or ".join(query_params))
 
-      tweepy_reply = f"@{unprocessed_request['screen_name']} Here is your booster pack of [{edition}]! https://scryfall.com/search?order=rarity&dir=asc&q={query_params}"
+      tweepy_reply = f"Here is your booster pack of [{edition}]! https://scryfall.com/search?order=rarity&dir=asc&q={query_params}"
       print(tweepy_reply)
       response = tweepy_api.update_status(
         status=tweepy_reply,
@@ -195,7 +195,7 @@ for unprocessed_request in reversed(unprocessed_requests):
       tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
 
   except Exception as e:
-    tweepy_reply = f"@{unprocessed_request['screen_name']} Please specify which pack you wish to open. For example: \"[LEA]\" https://en.wikipedia.org/wiki/List_of_Magic:_The_Gathering_sets"
+    tweepy_reply = f"Please specify which pack you wish to open. For example: \"[LEA]\" https://en.wikipedia.org/wiki/List_of_Magic:_The_Gathering_sets"
     print(tweepy_reply)
     response = tweepy_api.update_status(
       status=tweepy_reply,
