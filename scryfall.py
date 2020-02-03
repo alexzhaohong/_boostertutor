@@ -70,7 +70,8 @@ while not oldest_id_found:
 
 print()
 for unprocessed_request in reversed(unprocessed_requests):
-  print(f"Processing request for https://twitter.com/_/status/{unprocessed_request['id']} [{unprocessed_request['created_at']}]")
+  print(f"Processing request for https://twitter.com/_/status/{unprocessed_request['id']}")
+  print(f"[{unprocessed_request['created_at']}] [{unprocessed_request['screen_name']}]")
   m = re.search(r"\[([A-Za-z0-9_]+)\]", unprocessed_request["text"])
   try:
     edition = m.group(1).upper()
@@ -85,11 +86,12 @@ for unprocessed_request in reversed(unprocessed_requests):
     time.sleep(1/requests_per_second)
 
     if "status" in r.json() and r.json()["status"] == 404:
-      tweepy_reply = f"@{unprocessed_request['screen_name']} Booster Tutor could not find a booster pack in Scryfall for [{edition}]. https://en.wikipedia.org/wiki/List_of_Magic:_The_Gathering_sets"
+      tweepy_reply = f"Booster Tutor could not find a booster pack in Scryfall for [{edition}]. https://en.wikipedia.org/wiki/List_of_Magic:_The_Gathering_sets"
       print(tweepy_reply)
       tweepy_api.update_status(
         status=tweepy_reply,
-        in_reply_to_status_id=unprocessed_request["id"]
+        in_reply_to_status_id=unprocessed_request["id"],
+        auto_populate_reply_metadata=True
       )
       tweepy_api.create_favorite(id=unprocessed_request["id"])
       tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
@@ -168,21 +170,23 @@ for unprocessed_request in reversed(unprocessed_requests):
         query_params.append(f"(edition:{edition} !\"{rare}\")")
       query_params = urllib.parse.quote_plus(" or ".join(query_params))
 
-      tweepy_reply = f"@{unprocessed_request['screen_name']} Here is your booster pack of [{edition}]! https://scryfall.com/search?order=rarity&dir=asc&q={query_params}"
+      tweepy_reply = f"Here is your booster pack of [{edition}]! https://scryfall.com/search?order=rarity&dir=asc&q={query_params}"
       print(tweepy_reply)
       tweepy_api.update_status(
         status=tweepy_reply,
-        in_reply_to_status_id=unprocessed_request["id"]
+        in_reply_to_status_id=unprocessed_request["id"],
+        auto_populate_reply_metadata=True
       )
       tweepy_api.create_favorite(id=unprocessed_request["id"])
       tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
 
   except Exception as e:
-    tweepy_reply = f"@{unprocessed_request['screen_name']} Please specify which pack you wish to open. For example: \"[LEA]\" https://en.wikipedia.org/wiki/List_of_Magic:_The_Gathering_sets"
+    tweepy_reply = f"Please specify which pack you wish to open. For example: \"[LEA]\" https://en.wikipedia.org/wiki/List_of_Magic:_The_Gathering_sets"
     print(tweepy_reply)
     tweepy_api.update_status(
       status=tweepy_reply,
-      in_reply_to_status_id=unprocessed_request["id"]
+      in_reply_to_status_id=unprocessed_request["id"],
+      auto_populate_reply_metadata=True
     )
     tweepy_api.create_favorite(id=unprocessed_request["id"])
     tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
