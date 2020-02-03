@@ -89,8 +89,7 @@ for unprocessed_request in reversed(unprocessed_requests):
       print(tweepy_reply)
       tweepy_api.update_status(
         status=tweepy_reply,
-        in_reply_to_status_id=unprocessed_request["id"],
-        auto_populate_reply_metadata=True
+        in_reply_to_status_id=unprocessed_request["id"]
       )
       tweepy_api.create_favorite(id=unprocessed_request["id"])
       tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
@@ -173,8 +172,7 @@ for unprocessed_request in reversed(unprocessed_requests):
       print(tweepy_reply)
       tweepy_api.update_status(
         status=tweepy_reply,
-        in_reply_to_status_id=unprocessed_request["id"],
-        auto_populate_reply_metadata=True
+        in_reply_to_status_id=unprocessed_request["id"]
       )
       tweepy_api.create_favorite(id=unprocessed_request["id"])
       tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
@@ -184,8 +182,7 @@ for unprocessed_request in reversed(unprocessed_requests):
     print(tweepy_reply)
     tweepy_api.update_status(
       status=tweepy_reply,
-      in_reply_to_status_id=unprocessed_request["id"],
-      auto_populate_reply_metadata=True
+      in_reply_to_status_id=unprocessed_request["id"]
     )
     tweepy_api.create_favorite(id=unprocessed_request["id"])
     tweepy_api.update_profile(description=f"most recent booster opened on: {unprocessed_request['created_at']}")
