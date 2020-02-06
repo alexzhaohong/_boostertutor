@@ -1,4 +1,5 @@
 from datetime import datetime
+from random import randint
 import os
 import pprint
 import re
@@ -131,6 +132,19 @@ for unprocessed_request in reversed(unprocessed_requests):
       uncommons = []
       rares = []
 
+      # determine if there are mythics in this pack
+      mythics_available = True
+      payload = {
+        'q': [ f" \
+          edition:{edition} \
+          is:booster \
+          rarity=mythic \
+        "]
+      }
+      r = requests.get('https://api.scryfall.com/cards/random', params=payload)
+      if "status" in r.json() and r.json()["status"] == 404:
+        mythics_available = False
+
       # get commons
       rarity = "common"
       while len(commons) < 10:
@@ -173,6 +187,8 @@ for unprocessed_request in reversed(unprocessed_requests):
 
       # get rares and mythics
       rarity = "rare"
+      if mythics_available and (randint(1, 8) % 8 == 0):
+        rarity = "mythic"
       while len(rares) < 1:
         not_card = ""
         for card in rares:
@@ -181,13 +197,13 @@ for unprocessed_request in reversed(unprocessed_requests):
           'q': [ f" \
             edition:{edition} \
             is:booster \
-            rarity>={rarity} \
+            rarity={rarity} \
             -type:land \
             {not_card} \
           "]
         }
         r = requests.get('https://api.scryfall.com/cards/random', params=payload)
-        print(f"Rare: {r.json()['name']}")
+        print(f"{rarity.capitalize()}: {r.json()['name']}")
         rares.append(r.json()["name"])
         time.sleep(1/requests_per_second)
 
